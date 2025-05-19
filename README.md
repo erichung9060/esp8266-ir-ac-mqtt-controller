@@ -14,19 +14,27 @@ This project uses an NodeMCU ESP8266 microcontroller and an IR LED to simulate a
 
 ## 🔧 Setup Instructions
 
+in `ir_receiver.ino`
 1. **Capture IR Codes:**
-   - Connect an IR receiver to the NodeMCU ESP8266.
-   - Use `ir_receiver.ino` to decode the IR signals from the original AC remote and test if it can actually control the AC (you may need to be very close for it to work).
+   - Connect an IR receiver and an IR LED to the NodeMCU ESP8266.
+   - Decode the IR signals from the original AC remote.
+   - Test if the captured signals can control your AC (you may need to be very close to the AC).
    - Save these codes for later transmission.
 
-2. **MQTT Integration:**
+in `main.ino`
+1. **Update wifi configuration.**
+2. **Update the IR codes with the ones you captured in `callback` function.**
+3. **MQTT Integration:**
    - Sign up for a free account at [HiveMQ Cloud](https://www.hivemq.com/mqtt-cloud-broker/) (The Serverless Plan is sufficient).
-   - In `main.ino`, Configure your NodeMCU ESP8266 to connect to HiveMQ using your credentials.
-   - Subscribe to a topic like `ac` to receive remote commands.
+   - Follow the instructions provided in the `Getting Start - Arduino` session on the HiveMQ website to install additional libraries and certificates.
+   - Add your HiveMQ credentials in `main.ino`.
+   - Subscribe to a topic like `ac` to receive remote commands in `reconnect` function.
 
-3. **Send IR Commands:**
-   - When a message is received via MQTT (e.g., `open`, `up`, `down`), the NodeMCU ESP8266 sends the corresponding IR code via the IR LED to control the AC.
+4. **Send IR Commands via MQTT:**
+	- Use an MQTT client (e.g., HiveMQ Web Client, EasyMQTT) to publish messages to the `ac` topic.
+	- Example payloads: `open`, `up`, `down`, `wind`, etc.
+	- The ESP8266 will send the corresponding IR signal via the IR LED to your air conditioner.
 
-4. **Optional: Add Siri Shortcut:**
-   - Use a third-party MQTT client (like EasyMQTT) on your Iphone.
+5. **Optional: Add Siri Shortcut:**
+   - Use a third-party MQTT client (like EasyMQTT) on your iPhone.
    - Create Shortcuts that send specific MQTT messages to trigger your NodeMCU ESP8266.
