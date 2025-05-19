@@ -20,7 +20,6 @@ const char* mqtt_server = "your HivemMQ cloud server adddress";
 const char* mqtt_username = "your HiveMQ Cloud server username";
 const char* mqtt_password = "your HiveMQ Cloud server password";
 
-
 // A single, global CertStore which can be used by all connections.
 // Needs to stay live the entire time any of the WiFiClientBearSSLs
 // are present.
@@ -85,23 +84,23 @@ void callback(char* topic, byte* payload, unsigned int length) {
     if(strcmp(topic, "ac") == 0){
         if ((char)payload[0] == 'o') {
             IR_Sent(217256175); // power
-            client->publish("ac", "The power is turned on.", true);
+            client->publish("ac", "The power is turned on.");
         }
         if ((char)payload[0] == 'u') {
             IR_Sent(217305135); // tempup
             delay(500);
             IR_Sent(217305135); // tempup
-            client->publish("ac", "Temperature has risen.", true);
+            client->publish("ac", "Temperature has risen.");
         }
         if ((char)payload[0] == 'd') {
             IR_Sent(217307175); // tempdown
             delay(500);
             IR_Sent(217307175); // tempdown
-            client->publish("ac", "Temperature has dropped.", true);
+            client->publish("ac", "Temperature has dropped.");
         }
         if ((char)payload[0] == 'w') {
             IR_Sent(217311255); // wind
-            client->publish("ac", "Air volume has been enhanced.", true);
+            client->publish("ac", "Air volume has been enhanced.");
         }
     }
 }
